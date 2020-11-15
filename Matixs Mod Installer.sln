@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30611.23
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Matixs Mod Installer", "Matixs Mod Installer.csproj", "{ECBC036D-7AA5-4538-8B88-B3F667FFF55E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{ECBC036D-7AA5-4538-8B88-B3F667FFF55E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ECBC036D-7AA5-4538-8B88-B3F667FFF55E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ECBC036D-7AA5-4538-8B88-B3F667FFF55E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ECBC036D-7AA5-4538-8B88-B3F667FFF55E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {063BCD44-9D91-449A-BF5E-741836486B7E}
+	EndGlobalSection
+EndGlobal
