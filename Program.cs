@@ -14,6 +14,7 @@ namespace Matixs_Mod_Installer
         [STAThread]
         static void Main()
         {
+            Utils.initLogger();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());

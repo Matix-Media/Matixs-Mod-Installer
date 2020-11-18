@@ -1,0 +1,57 @@
+﻿lblInstallStatus.Text = "Checking Java Runtime Environment...";
+                    _log.Info("INSTALLATION: Checking Java Runtime Environment...");
+                    if (!Directory.Exists(Memory.jreLocation))
+                    {
+                        string jreDownloadUrl = otherSources["jre"];
+                        string jreTmpLocation = Path.GetTempFileName();
+
+                        lblInstallStatus.Text = "Downloading Java Runtime Environment...";
+                        _log.Info("INSTALLATION: Downloading Java Runtime Environment...");
+
+                        await webClient.DownloadFileTaskAsync(jreDownloadUrl, jreTmpLocation);
+                        pgbInstallProgress.Value = 0;
+                        pgbInstallProgress.Maximum = 100;
+
+                        lblInstallStatus.Text = "Installing Java Runtime Environment...";
+                        _log.Info("INSTALLATION: Installing Java Runtime Environment...");
+                    
+                        if (!Directory.Exists(Memory.jreLocation))
+                            Directory.CreateDirectory(Memory.jreLocation);
+
+                        using (FileStream f = new FileStream(jreTmpLocation, FileMode.Open))
+                        {
+                            using (ZipArchive archive = new ZipArchive(f))
+                            {
+                                pgbInstallProgress.Maximum = archive.Entries.Count;
+
+                                foreach (ZipArchiveEntry entry in archive.Entries)
+                                {
+                                    if (!entry.FullName.EndsWith("/"))
+                                    {
+                                        string destionationPath = Path.GetFullPath(Path.Combine(Memory.jreLocation, entry.FullName));
+                                        string destionationDirectory = Path.GetDirectoryName(destionationPath);
+
+
+                                        if (destionationPath.StartsWith(Memory.jreLocation, StringComparison.Ordinal))
+                                        {
+                                            if (!Directory.Exists(destionationDirectory))
+                                                Directory.CreateDirectory(destionationDirectory);
+                                            pgbInstallProgress.Value++;
+                                            Application.DoEvents();
+                                            entry.ExtractToFile(destionationPath);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        pgbInstallProgress.Value = 0;
+                        pgbInstallProgress.Maximum = 0;
+
+                        await Utils.PutTaskDelay(1000);
+                        File.Delete(jreTmpLocation);
+
+                    } else
+                    {
+                        _log.Info("INSTALLATION: Java Runtime Environment already downloaded.");
+                    }
