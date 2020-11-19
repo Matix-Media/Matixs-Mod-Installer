@@ -37,12 +37,13 @@
             // 
             this.lblStatus.AutoSize = true;
             this.lblStatus.BackColor = System.Drawing.Color.Transparent;
-            this.lblStatus.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblStatus.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblStatus.Location = new System.Drawing.Point(5, 239);
             this.lblStatus.Name = "lblStatus";
-            this.lblStatus.Size = new System.Drawing.Size(64, 17);
+            this.lblStatus.Size = new System.Drawing.Size(65, 17);
             this.lblStatus.TabIndex = 0;
             this.lblStatus.Text = "Loading...";
+            this.lblStatus.UseWaitCursor = true;
             // 
             // lblVersion
             // 
@@ -51,12 +52,13 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblVersion.BackColor = System.Drawing.Color.Transparent;
             this.lblVersion.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblVersion.Location = new System.Drawing.Point(125, 274);
+            this.lblVersion.Location = new System.Drawing.Point(108, 274);
             this.lblVersion.Name = "lblVersion";
-            this.lblVersion.Size = new System.Drawing.Size(72, 23);
+            this.lblVersion.Size = new System.Drawing.Size(89, 23);
             this.lblVersion.TabIndex = 1;
             this.lblVersion.Text = "v0.1.1";
             this.lblVersion.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lblVersion.UseWaitCursor = true;
             // 
             // Splash
             // 
@@ -75,6 +77,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Splash";
             this.TransparencyKey = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(9)))), ((int)(((byte)(174)))));
+            this.UseWaitCursor = true;
             this.Load += new System.EventHandler(this.Splash_Load);
             this.Shown += new System.EventHandler(this.Splash_Shown);
             this.ResumeLayout(false);

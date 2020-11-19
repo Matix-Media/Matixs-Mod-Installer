@@ -15,6 +15,7 @@ namespace Matixs_Mod_Installer
         public string Version { get; set; }
         public string McVersion { get; set; }
         public string ModpackDownload { get; set; }
+        public string ModpackSHA256 { get; set; }
         public string Icon { get; set; }
         public string Description { get; set; }
     }

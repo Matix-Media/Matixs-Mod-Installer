@@ -1,9 +1,12 @@
 ﻿using NLog;
+using Shell32;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -142,6 +145,54 @@ namespace Matixs_Mod_Installer
             path = r.Replace(path, "");
 
             return path;
+        }
+
+        public static string BytesToString(byte[] bytes)
+        {
+            string result = "";
+            foreach (byte b in bytes) result += b.ToString("x2");
+            return result;
+        }
+
+        public static byte[] GetHashSha256(string filename)
+        {
+            using (SHA256 Sha256 = SHA256.Create())
+            {
+                using (FileStream stream = File.OpenRead(filename))
+                {
+                    return Sha256.ComputeHash(stream);
+                }
+            }
+            
+        }
+
+        public static ScrollBars GetVisibleScrollbars(Control ctl)
+        {
+            int wndStyle = Win32.GetWindowLong(ctl.Handle, Win32.GWL_STYLE);
+            bool hsVisible = (wndStyle & Win32.WS_HSCROLL) != 0;
+            bool vsVisible = (wndStyle & Win32.WS_VSCROLL) != 0;
+
+            if (hsVisible)
+                return vsVisible ? ScrollBars.Both : ScrollBars.Horizontal;
+            else
+                return vsVisible ? ScrollBars.Vertical : ScrollBars.None;
+        }
+
+        public static string GetShortcutTargetFile(string shortcutFilename)
+        {
+            string pathOnly = System.IO.Path.GetDirectoryName(shortcutFilename);
+            string filenameOnly = System.IO.Path.GetFileName(shortcutFilename);
+
+            Shell shell = new Shell();
+            Folder folder = shell.NameSpace(pathOnly);
+            FolderItem folderItem = folder.ParseName(filenameOnly);
+            if (folderItem != null)
+            {
+                Shell32.ShellLinkObject link = (Shell32.ShellLinkObject)folderItem.GetLink;
+                return link.Path;
+            }
+
+            return string.Empty;
         }
     }
 }

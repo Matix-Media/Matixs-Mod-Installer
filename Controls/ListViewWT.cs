@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Matixs_Mod_Installer
+namespace Matixs_Mod_Installer.Controls
 {
     class ListViewWT : System.Windows.Forms.ListView
     {

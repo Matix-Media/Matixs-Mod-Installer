@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Matixs_Mod_Installer
+namespace Matixs_Mod_Installer.Controls
 {
     public class LinkLabelWT : LinkLabel
     {

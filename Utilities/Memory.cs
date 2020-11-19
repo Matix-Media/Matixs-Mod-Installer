@@ -18,7 +18,7 @@ namespace Matixs_Mod_Installer
         public static readonly string logLocation = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), ".matixs_mod_installer", "matixs_mod_installer__d.log");
         public static readonly string minecraftLocation = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), ".minecraft");
         public static readonly string jreLocation = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), ".matixs_mod_installer", "jre");
-        public static readonly string minecraftLauncherLocation = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86), "Minecraft", "MinecraftLauncher.exe");
+        public static string minecraftLauncherLocation = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86), "Minecraft", "MinecraftLauncher.exe");
 
         public static readonly string otherSourcesFile = "https://raw.githubusercontent.com/Matix-Media/matixs-mod-installer-infos/main/other-sources.json";
         public static readonly string forgeSourcesFile = "https://raw.githubusercontent.com/Matix-Media/matixs-mod-installer-infos/main/forge-sources.json";
@@ -32,10 +32,11 @@ namespace Matixs_Mod_Installer
         public static Dictionary<string, Bitmap> imageCache = new Dictionary<string, Bitmap>();
         public static List<Modpack> loadedModpacks = new List<Modpack>();
         public static List<string> trustedSources = new List<string>();
+        public static List<string> searchHistory = new List<string>();
 
         public static bool launcherFound = false;
-        public static Size mainFormSize;
-        public static Point mainFormLocation;
+        public static Size mainFormSize = new Size(1064, 646);
+        public static Point mainFormLocation = new Point(100, 100);
         public static FormWindowState mainFormState;
 
         public static Form1 mainForm;
