@@ -19,7 +19,7 @@ using System.Security.Cryptography;
 
 namespace Matixs_Mod_Installer
 {
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
         
 
@@ -27,7 +27,7 @@ namespace Matixs_Mod_Installer
         private bool installing = false;
         private string installingUID;
 
-        public Form1()
+        public MainForm()
         {
             InitializeComponent();
             Memory.mainForm = this;
@@ -42,7 +42,6 @@ namespace Matixs_Mod_Installer
 
             Settings settings = new Settings();
             settings.modpackSources = Memory.modpackSource;
-            settings.searchHistory = Memory.searchHistory;
             if (this.WindowState != FormWindowState.Maximized)
             {
                 settings.windowPosition = this.Location;
@@ -50,6 +49,10 @@ namespace Matixs_Mod_Installer
             }
             settings.windowState = this.WindowState;
             
+            if (Memory.minecraftLauncherLocation != null)
+            {
+                settings.minecraftLauncher = Memory.minecraftLauncherLocation;
+            }
 
             _log.Info("Writing to local Settings file...");
             try
@@ -156,7 +159,6 @@ namespace Matixs_Mod_Installer
         {
             btnInstallMopack.Enabled = true;
             btnUpdate.Enabled = true;
-            btnEditModpackSources.Enabled = true;
             lblInstallStatus.Visible = false;
             pgbInstallProgress.Visible = false;
             installing = false;
@@ -180,7 +182,6 @@ namespace Matixs_Mod_Installer
                 pnlInstall.Height = 103;
                 btnInstallMopack.Enabled = false;
                 btnUpdate.Enabled = false;
-                btnEditModpackSources.Enabled = false;
                 btnInstallMopack.Text = "Installing...";
                 pgbInstallProgress.Visible = true;
                 pgbInstallProgress.Value = 0;
@@ -194,6 +195,15 @@ namespace Matixs_Mod_Installer
                     MessageBox.Show("Minecraft is not installed on your system. Minecraft is required if you want to install Modpacks.", "Minecraft not installed", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     await resetModpackInstallation(modpack);
                     return;
+                }
+                    if (Utils.checkMinecraftRunning())
+                {
+                    if (MessageBox.Show("Minecraft is probably running in the background. Please make sure that Minecraft is closed before continuing the installation.\nClick on Cancel to cancel the installation.", "Minecraft running", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.Cancel)
+                    {
+                        await resetModpackInstallation(modpack);
+                        return;
+                    }
+                    
                 }
 
                     using (WebClient webClient = new WebClient())
@@ -440,7 +450,20 @@ namespace Matixs_Mod_Installer
 
         private async Task uninstallModpack(Modpack modpack)
         {
+            if (Utils.checkMinecraftRunning())
+            {
+                if (MessageBox.Show("Minecraft is probably running in the background. Please make sure that Minecraft is closed before continuing the installation.\nClick on Cancel to cancel the installation.", "Minecraft running", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.Cancel)
+                {
+                    await resetModpackInstallation(modpack);
+                    return;
+                }
+
+            }
+
+
             btnUninstall.Enabled = false;
+
+            
             try
             {
                 _log.Info("Uninstalling " + modpack.Name);
@@ -626,7 +649,7 @@ namespace Matixs_Mod_Installer
                     if (Directory.Exists(modpackDirectory))
                     {
                         btnInstallMopack.Text = "Start Minecraft";
-                        if (File.Exists(Memory.minecraftLauncherLocation))
+                        if (Memory.launcherFound)
                         {
                             btnInstallMopack.Enabled = true;
                         }
@@ -661,6 +684,7 @@ namespace Matixs_Mod_Installer
                         {
                             btnInstallMopack.Text = "Download and Install";
                             btnInstallMopack.Width = pnlInstall.Width - 6;
+                            btnInstallMopack.Enabled = true;
                         }
                         else
                         {
@@ -717,12 +741,6 @@ namespace Matixs_Mod_Installer
         private void btnStartMinecraftLauncher_Click(object sender, EventArgs e)
         {
             
-        }
-
-        private void btnEditModpackSources_Click(object sender, EventArgs e)
-        {
-            EditSources dialog = new EditSources();
-            dialog.ShowDialog();
         }
 
         private void btnStartMinecraftLauncher_Click_1(object sender, EventArgs e)
@@ -841,6 +859,14 @@ namespace Matixs_Mod_Installer
         private void btnSearch_Click(object sender, EventArgs e)
         {
             searchModpacks(tbSearch.Text);
+        }
+
+        private void btnOptions_Click(object sender, EventArgs e)
+        {
+            using (Options dialog = new Options())
+            {
+                dialog.ShowDialog();
+            }
         }
     }
 }

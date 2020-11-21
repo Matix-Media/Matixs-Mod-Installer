@@ -5,7 +5,7 @@ Matix's Mod Installer is a simple Installation Script for installing Minecraft M
 ## Installation
 In order to install Matix's Mod Installer, visit the [release page](https://github.com/Matix-Media/Matixs-Mod-Installer/releases) and download the latest installer for Matix's Mod Installer.
 
-Latest Installer: [Matixs_Mod_Installer_0.1.3.4_setup.exe](https://github.com/Matix-Media/Matixs-Mod-Installer/releases/download/v0.1.3.4/Matixs_Mod_Installer_0.1.3.4_setup.exe)
+Latest Installer: [Matixs-Mod-Installer_setup.v0.2.60.20326.exe](https://github.com/Matix-Media/Matixs-Mod-Installer/releases/download/v0.2.60.20326/Matixs-Mod-Installer_setup.v0.2.60.20326.exe)
 
 ## Adding more Modpack sources
-You can simply add more Modpack sources by clicking on the button in the top left called "Change Modpack Sources".
+You can simply add more Modpack sources by going to the options menu and clicking on the "Change Modpack Sources" button.

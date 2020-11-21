@@ -18,8 +18,8 @@ namespace Matixs_Mod_Installer
         public Size windowSize { get; set; }
         public Point windowPosition { get; set; }
         public FormWindowState windowState { get; set; }
+        public string minecraftLauncher { get; set; }
 
         public List<string> modpackSources { get; set; }
-        public List<string> searchHistory { get; set; }
     }
 }

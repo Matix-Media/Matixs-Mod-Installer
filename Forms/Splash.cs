@@ -58,35 +58,7 @@ namespace Matixs_Mod_Installer
             lblStatus.Text = "Loading Settings...";
             Refresh();
 
-            _log.Info("Checking Minecraft Launcher File...");
-
-            string shortcutLocation = Path.GetFullPath("C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\Minecraft\\Minecraft.lnk");
-
-            _log.Info(shortcutLocation);
-
-            if (File.Exists(Memory.minecraftLauncherLocation))
-            {
-                Memory.launcherFound = true;
-            }
-            else
-            {
-
-                if (File.Exists(shortcutLocation))
-                {
-                    string shortcutTarget = Utils.GetShortcutTargetFile(shortcutLocation);
-                    if (File.Exists(shortcutTarget))
-                    {
-                        Memory.minecraftLauncherLocation = shortcutTarget;
-                        Memory.launcherFound = true;
-                    } else
-                    {
-                        Memory.launcherFound = false;
-                    }
-                } else
-                {
-                    Memory.launcherFound = false;
-                }
-            }
+            
 
             _log.Info("Loading local Settings file...");
 
@@ -98,11 +70,98 @@ namespace Matixs_Mod_Installer
                         string result = r.ReadToEnd();
                         Settings settings = JsonConvert.DeserializeObject<Settings>(result);
                         Memory.modpackSource = settings.modpackSources;
-                        Memory.searchHistory = settings.searchHistory;
                         Memory.mainFormLocation = settings.windowPosition;
                         Memory.mainFormSize = settings.windowSize;
-                        
+
                         Memory.mainFormState = settings.windowState;
+
+                        if (settings.minecraftLauncher == null)
+                        {
+                            _log.Info("Checking Minecraft Launcher File...");
+
+                            string shortcutLocation = Path.GetFullPath("C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\Minecraft\\Minecraft.lnk");
+
+                            string defaultLauncherLocation = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86), "Minecraft", "MinecraftLauncher.exe");
+
+                            if (File.Exists(defaultLauncherLocation))
+                            {
+                                Memory.launcherFound = true;
+                                Memory.minecraftLauncherLocation = defaultLauncherLocation;
+                            }
+                            else
+                            {
+
+                                if (File.Exists(shortcutLocation))
+                                {
+                                    string shortcutTarget = Utils.GetShortcutTargetFile(shortcutLocation);
+                                    if (File.Exists(shortcutTarget))
+                                    {
+                                        Memory.minecraftLauncherLocation = shortcutTarget;
+                                        Memory.launcherFound = true;
+                                    }
+                                    else
+                                    {
+                                        Memory.launcherFound = false;
+                                        if (MessageBox.Show("Could not find your Minecraft Launcher. Do you want to select the Minecraft Launcher location manually?", "Launcher not found", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                                        {
+                                            using (OpenFileDialog dialog = new OpenFileDialog())
+                                            {
+                                                dialog.Filter = "Executable|*.exe";
+                                                dialog.Title = "Select Minecraft Launcher Executable...";
+                                                dialog.DefaultExt = ".exe";
+                                                dialog.Multiselect = false;
+
+                                                if (dialog.ShowDialog() == DialogResult.OK)
+                                                {
+                                                    if (File.Exists(dialog.FileName))
+                                                    {
+                                                        Memory.minecraftLauncherLocation = dialog.FileName;
+                                                        Memory.launcherFound = true;
+                                                    }
+                                                    else
+                                                    {
+                                                        Memory.launcherFound = false;
+                                                        MessageBox.Show("The selected file was not found on your system.");
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    Memory.launcherFound = false;
+                                    if (MessageBox.Show("Could not find your Minecraft Launcher. Do you want to select the Minecraft Launcher location manually?", "Launcher not found", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                                    {
+                                        using (OpenFileDialog dialog = new OpenFileDialog())
+                                        {
+                                            dialog.Filter = "Executable|*.exe";
+                                            dialog.Title = "Select Minecraft Launcher Executable...";
+                                            dialog.DefaultExt = ".exe";
+                                            dialog.Multiselect = false;
+
+                                            if (dialog.ShowDialog() == DialogResult.OK)
+                                            {
+                                                if (File.Exists(dialog.FileName))
+                                                {
+                                                    Memory.minecraftLauncherLocation = dialog.FileName;
+                                                    Memory.launcherFound = true;
+                                                }
+                                                else
+                                                {
+                                                    MessageBox.Show("The selected file was not found on your system.");
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        else
+                        {
+                            Memory.minecraftLauncherLocation = settings.minecraftLauncher;
+                            Memory.launcherFound = true;
+                        }
                     }
             }
             catch (Exception e)

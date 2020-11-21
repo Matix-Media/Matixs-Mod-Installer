@@ -2,9 +2,11 @@
 using Shell32;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Management;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
@@ -22,8 +24,11 @@ namespace Matixs_Mod_Installer
 
         public static DialogResult ShowInputDialog(ref string input, string title = "Enter Text", int width = 200)
         {
-            System.Drawing.Size size = new System.Drawing.Size(width, 70);
+            System.Drawing.Size size = new System.Drawing.Size(width, 90);
             Form inputBox = new Form();
+
+            inputBox.BackColor = Color.White;
+            inputBox.Font = new Font("Segoe UI", 9, FontStyle.Regular);
 
             inputBox.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             inputBox.StartPosition = FormStartPosition.CenterScreen;
@@ -33,26 +38,42 @@ namespace Matixs_Mod_Installer
             inputBox.MinimizeBox = false;
 
             System.Windows.Forms.TextBox textBox = new TextBox();
-            textBox.Size = new System.Drawing.Size(size.Width - 10, 23);
-            textBox.Location = new System.Drawing.Point(5, 5);
+            textBox.Size = new System.Drawing.Size(size.Width - 16, 23);
+            textBox.Location = new System.Drawing.Point(8, 8);
             textBox.Text = input;
             inputBox.Controls.Add(textBox);
+            inputBox.Font = new Font("Segoe UI", 9, FontStyle.Regular);
+
+            Panel panel = new Panel();
+            panel.BackColor = Color.FromArgb(236, 240, 241);
+            panel.Dock = DockStyle.Bottom;
+            panel.Height = 47;
 
             Button okButton = new Button();
             okButton.DialogResult = System.Windows.Forms.DialogResult.OK;
             okButton.Name = "okButton";
-            okButton.Size = new System.Drawing.Size(75, 23);
+            okButton.Size = new System.Drawing.Size(87, 27);
             okButton.Text = "&OK";
-            okButton.Location = new System.Drawing.Point(size.Width - 80 - 80, 39);
-            inputBox.Controls.Add(okButton);
+            okButton.Location = new System.Drawing.Point(size.Width - 96, 10);
+            okButton.FlatAppearance.BorderSize = 1;
+            okButton.FlatStyle = FlatStyle.Flat;
+            okButton.BackColor = Color.FromArgb(236, 240, 241);
+            okButton.Font = new Font("Segoe UI", 9, FontStyle.Regular);
+            panel.Controls.Add(okButton);
 
             Button cancelButton = new Button();
             cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             cancelButton.Name = "cancelButton";
-            cancelButton.Size = new System.Drawing.Size(75, 23);
+            cancelButton.Size = new System.Drawing.Size(87, 27);
             cancelButton.Text = "&Cancel";
-            cancelButton.Location = new System.Drawing.Point(size.Width - 80, 39);
-            inputBox.Controls.Add(cancelButton);
+            cancelButton.Location = new System.Drawing.Point(size.Width - 190, 10);
+            cancelButton.FlatStyle = FlatStyle.Flat;
+            cancelButton.FlatAppearance.BorderSize = 0;
+            cancelButton.BackColor = Color.FromArgb(236, 240, 241);
+            cancelButton.Font = new Font("Segoe UI", 9, FontStyle.Regular);
+            panel.Controls.Add(cancelButton);
+
+            inputBox.Controls.Add(panel);
 
             inputBox.AcceptButton = okButton;
             inputBox.CancelButton = cancelButton;
@@ -186,13 +207,37 @@ namespace Matixs_Mod_Installer
             Shell shell = new Shell();
             Folder folder = shell.NameSpace(pathOnly);
             FolderItem folderItem = folder.ParseName(filenameOnly);
-            if (folderItem != null)
+            try
             {
-                Shell32.ShellLinkObject link = (Shell32.ShellLinkObject)folderItem.GetLink;
-                return link.Path;
+                if (folderItem != null)
+                {
+                    Shell32.ShellLinkObject link = (Shell32.ShellLinkObject)folderItem.GetLink;
+                    return link.Path;
+                }
+            } catch (Exception e)
+            {
+                _log.Error("Could not get the Target file of Shortcut: " + e.ToString());
+                return string.Empty;
             }
+            
 
             return string.Empty;
         }
+
+        public static bool checkMinecraftRunning()
+        {
+            ManagementClass localAll = new ManagementClass("Win32_Process");
+            foreach(ManagementObject proc in localAll.GetInstances())
+            {
+                if ((string)proc["Name"] == "javaw.exe" && ((string)proc["CommandLine"]).Contains(".minecraft"))
+                {
+                    _log.Info("Minecraft probably running.");
+                    return true;
+                }
+            }
+            _log.Info("Minecraft not running.");
+            return false;
+        }
+
     }
 }

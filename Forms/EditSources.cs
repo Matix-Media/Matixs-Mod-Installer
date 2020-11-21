@@ -101,5 +101,7 @@ namespace Matixs_Mod_Installer
                     lbSources.Items.Remove(selectedItems[i]);
             }
         }
+
+       
     }
 }

@@ -60,6 +60,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Management" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Transactions" />
@@ -84,17 +85,23 @@
     <Compile Include="Forms\EditSources.Designer.cs">
       <DependentUpon>EditSources.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Form1.cs">
+    <Compile Include="Forms\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="Forms\MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\LinkLabelWT.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controls\ListViewWT.cs">
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Forms\Options.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Options.Designer.cs">
+      <DependentUpon>Options.cs</DependentUpon>
     </Compile>
     <Compile Include="Utilities\Memory.cs" />
     <Compile Include="Objects\Modpack.cs" />
@@ -120,11 +127,14 @@
     <EmbeddedResource Include="Forms\EditSources.resx">
       <DependentUpon>EditSources.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\ProgressBarWT.resx">
       <DependentUpon>ProgressBarWT.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Options.resx">
+      <DependentUpon>Options.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -157,6 +167,7 @@
   <ItemGroup>
     <Content Include="icon.ico" />
     <EmbeddedResource Include="ZZupdater0.exe" />
+    <None Include="README.md" />
     <None Include="Resources\rubbish.png" />
     <None Include="Resources\splash.png" />
     <None Include="Resources\pDvgCCM.jpg" />

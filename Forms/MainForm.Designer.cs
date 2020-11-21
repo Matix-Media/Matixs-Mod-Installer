@@ -1,6 +1,6 @@
 ﻿namespace Matixs_Mod_Installer
 {
-    partial class Form1
+    partial class MainForm
     {
         /// <summary>
         /// Erforderliche Designervariable.
@@ -29,13 +29,13 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.imglstModpacks = new System.Windows.Forms.ImageList(this.components);
             this.imglstButtonImgs = new System.Windows.Forms.ImageList(this.components);
             this.pnlMenu = new System.Windows.Forms.Panel();
             this.flpMenu = new System.Windows.Forms.FlowLayoutPanel();
-            this.btnEditModpackSources = new System.Windows.Forms.Button();
             this.btnStartMinecraftLauncher = new System.Windows.Forms.Button();
+            this.btnOptions = new System.Windows.Forms.Button();
             this.pnlStatus = new System.Windows.Forms.Panel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
@@ -75,7 +75,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.lblCreator = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
+            this.lblNothingSelected = new System.Windows.Forms.Label();
             this.tltMain = new System.Windows.Forms.ToolTip(this.components);
             this.lvModpacks = new Matixs_Mod_Installer.Controls.ListViewWT();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -121,41 +121,24 @@
             // 
             // pnlMenu
             // 
-            this.pnlMenu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(189)))), ((int)(((byte)(195)))), ((int)(((byte)(199)))));
+            this.pnlMenu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(161)))), ((int)(((byte)(177)))), ((int)(((byte)(179)))));
             this.pnlMenu.Controls.Add(this.flpMenu);
             this.pnlMenu.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlMenu.Location = new System.Drawing.Point(0, 0);
             this.pnlMenu.Name = "pnlMenu";
-            this.pnlMenu.Size = new System.Drawing.Size(1032, 27);
+            this.pnlMenu.Size = new System.Drawing.Size(1032, 30);
             this.pnlMenu.TabIndex = 5;
             // 
             // flpMenu
             // 
             this.flpMenu.BackColor = System.Drawing.Color.Transparent;
-            this.flpMenu.Controls.Add(this.btnEditModpackSources);
+            this.flpMenu.Controls.Add(this.btnOptions);
             this.flpMenu.Controls.Add(this.btnStartMinecraftLauncher);
             this.flpMenu.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flpMenu.Location = new System.Drawing.Point(0, 0);
             this.flpMenu.Name = "flpMenu";
-            this.flpMenu.Size = new System.Drawing.Size(1032, 27);
+            this.flpMenu.Size = new System.Drawing.Size(1032, 30);
             this.flpMenu.TabIndex = 0;
-            // 
-            // btnEditModpackSources
-            // 
-            this.btnEditModpackSources.AutoSize = true;
-            this.btnEditModpackSources.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(149)))), ((int)(((byte)(165)))), ((int)(((byte)(166)))));
-            this.btnEditModpackSources.FlatAppearance.BorderSize = 0;
-            this.btnEditModpackSources.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnEditModpackSources.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.btnEditModpackSources.ForeColor = System.Drawing.Color.White;
-            this.btnEditModpackSources.Location = new System.Drawing.Point(1, 1);
-            this.btnEditModpackSources.Margin = new System.Windows.Forms.Padding(1, 1, 0, 1);
-            this.btnEditModpackSources.Name = "btnEditModpackSources";
-            this.btnEditModpackSources.Size = new System.Drawing.Size(155, 25);
-            this.btnEditModpackSources.TabIndex = 0;
-            this.btnEditModpackSources.Text = "Change Modpack Sources";
-            this.btnEditModpackSources.UseVisualStyleBackColor = false;
-            this.btnEditModpackSources.Click += new System.EventHandler(this.btnEditModpackSources_Click);
             // 
             // btnStartMinecraftLauncher
             // 
@@ -168,11 +151,30 @@
             this.btnStartMinecraftLauncher.Location = new System.Drawing.Point(157, 1);
             this.btnStartMinecraftLauncher.Margin = new System.Windows.Forms.Padding(1, 1, 0, 1);
             this.btnStartMinecraftLauncher.Name = "btnStartMinecraftLauncher";
-            this.btnStartMinecraftLauncher.Size = new System.Drawing.Size(155, 25);
+            this.btnStartMinecraftLauncher.Padding = new System.Windows.Forms.Padding(1, 1, 0, 1);
+            this.btnStartMinecraftLauncher.Size = new System.Drawing.Size(155, 27);
             this.btnStartMinecraftLauncher.TabIndex = 1;
             this.btnStartMinecraftLauncher.Text = "Start Minecraft Launcher";
             this.btnStartMinecraftLauncher.UseVisualStyleBackColor = false;
             this.btnStartMinecraftLauncher.Click += new System.EventHandler(this.btnStartMinecraftLauncher_Click_1);
+            // 
+            // btnOptions
+            // 
+            this.btnOptions.AutoSize = true;
+            this.btnOptions.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(149)))), ((int)(((byte)(165)))), ((int)(((byte)(166)))));
+            this.btnOptions.FlatAppearance.BorderSize = 0;
+            this.btnOptions.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnOptions.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.btnOptions.ForeColor = System.Drawing.Color.White;
+            this.btnOptions.Location = new System.Drawing.Point(1, 1);
+            this.btnOptions.Margin = new System.Windows.Forms.Padding(1, 1, 0, 1);
+            this.btnOptions.Name = "btnOptions";
+            this.btnOptions.Padding = new System.Windows.Forms.Padding(1, 1, 0, 1);
+            this.btnOptions.Size = new System.Drawing.Size(155, 27);
+            this.btnOptions.TabIndex = 2;
+            this.btnOptions.Text = "Options";
+            this.btnOptions.UseVisualStyleBackColor = false;
+            this.btnOptions.Click += new System.EventHandler(this.btnOptions_Click);
             // 
             // pnlStatus
             // 
@@ -255,7 +257,7 @@
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 27);
+            this.splitContainer1.Location = new System.Drawing.Point(0, 30);
             this.splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
@@ -271,8 +273,8 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.pnlDetails);
             this.splitContainer1.Panel2.Controls.Add(this.label7);
-            this.splitContainer1.Panel2.Controls.Add(this.label8);
-            this.splitContainer1.Size = new System.Drawing.Size(1032, 560);
+            this.splitContainer1.Panel2.Controls.Add(this.lblNothingSelected);
+            this.splitContainer1.Size = new System.Drawing.Size(1032, 557);
             this.splitContainer1.SplitterDistance = 258;
             this.splitContainer1.TabIndex = 2;
             // 
@@ -280,11 +282,11 @@
             // 
             this.btnRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnRefresh.AutoSize = true;
-            this.btnRefresh.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(226)))), ((int)(((byte)(227)))));
+            this.btnRefresh.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(229)))), ((int)(((byte)(230)))));
             this.btnRefresh.FlatAppearance.BorderSize = 0;
             this.btnRefresh.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnRefresh.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.btnRefresh.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(127)))), ((int)(((byte)(140)))), ((int)(((byte)(141)))));
+            this.btnRefresh.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(75)))), ((int)(((byte)(81)))), ((int)(((byte)(82)))));
             this.btnRefresh.Location = new System.Drawing.Point(199, 3);
             this.btnRefresh.Margin = new System.Windows.Forms.Padding(1, 1, 0, 1);
             this.btnRefresh.Name = "btnRefresh";
@@ -301,7 +303,7 @@
             this.pnlLoadingModpacks.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pnlLoadingModpacks.Controls.Add(this.pictureBox2);
             this.pnlLoadingModpacks.Controls.Add(this.label9);
-            this.pnlLoadingModpacks.Location = new System.Drawing.Point(32, 138);
+            this.pnlLoadingModpacks.Location = new System.Drawing.Point(32, 136);
             this.pnlLoadingModpacks.Name = "pnlLoadingModpacks";
             this.pnlLoadingModpacks.Size = new System.Drawing.Size(196, 51);
             this.pnlLoadingModpacks.TabIndex = 2;
@@ -355,7 +357,7 @@
             // 
             this.btnSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSearch.AutoSize = true;
-            this.btnSearch.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(205)))), ((int)(((byte)(207)))));
+            this.btnSearch.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(229)))), ((int)(((byte)(230)))));
             this.btnSearch.FlatAppearance.BorderSize = 0;
             this.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSearch.Font = new System.Drawing.Font("Segoe UI", 9F);
@@ -389,7 +391,7 @@
             this.pnlDetails.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlDetails.Location = new System.Drawing.Point(0, 28);
             this.pnlDetails.Name = "pnlDetails";
-            this.pnlDetails.Size = new System.Drawing.Size(770, 532);
+            this.pnlDetails.Size = new System.Drawing.Size(770, 529);
             this.pnlDetails.TabIndex = 3;
             this.pnlDetails.Visible = false;
             // 
@@ -412,7 +414,7 @@
             this.flpDetails.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flpDetails.Location = new System.Drawing.Point(0, 111);
             this.flpDetails.Name = "flpDetails";
-            this.flpDetails.Size = new System.Drawing.Size(770, 318);
+            this.flpDetails.Size = new System.Drawing.Size(770, 315);
             this.flpDetails.TabIndex = 19;
             // 
             // label10
@@ -535,7 +537,7 @@
             this.pnlInstall.Controls.Add(this.lblInstallStatus);
             this.pnlInstall.Controls.Add(this.pgbInstallProgress);
             this.pnlInstall.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnlInstall.Location = new System.Drawing.Point(0, 429);
+            this.pnlInstall.Location = new System.Drawing.Point(0, 426);
             this.pnlInstall.Name = "pnlInstall";
             this.pnlInstall.Size = new System.Drawing.Size(770, 103);
             this.pnlInstall.TabIndex = 15;
@@ -564,7 +566,7 @@
             // btnUpdate
             // 
             this.btnUpdate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnUpdate.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(188)))), ((int)(((byte)(156)))));
+            this.btnUpdate.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(204)))), ((int)(((byte)(113)))));
             this.btnUpdate.FlatAppearance.BorderSize = 0;
             this.btnUpdate.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(171)))), ((int)(((byte)(94)))));
             this.btnUpdate.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(174)))), ((int)(((byte)(96)))));
@@ -699,17 +701,17 @@
             this.label7.Text = "Details";
             this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // label8
+            // lblNothingSelected
             // 
-            this.label8.BackColor = System.Drawing.Color.Transparent;
-            this.label8.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label8.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(0, 0);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(770, 560);
-            this.label8.TabIndex = 2;
-            this.label8.Text = "Nothing Selected";
-            this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblNothingSelected.BackColor = System.Drawing.Color.Transparent;
+            this.lblNothingSelected.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblNothingSelected.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblNothingSelected.Location = new System.Drawing.Point(0, 0);
+            this.lblNothingSelected.Name = "lblNothingSelected";
+            this.lblNothingSelected.Size = new System.Drawing.Size(770, 557);
+            this.lblNothingSelected.TabIndex = 2;
+            this.lblNothingSelected.Text = "No Modpack Selected\r\n(Select a Modpack at the left side of the screen)";
+            this.lblNothingSelected.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // tltMain
             // 
@@ -733,7 +735,7 @@
             this.lvModpacks.Location = new System.Drawing.Point(0, 59);
             this.lvModpacks.MultiSelect = false;
             this.lvModpacks.Name = "lvModpacks";
-            this.lvModpacks.Size = new System.Drawing.Size(258, 501);
+            this.lvModpacks.Size = new System.Drawing.Size(258, 498);
             this.lvModpacks.SmallImageList = this.imglstModpacks;
             this.lvModpacks.TabIndex = 0;
             this.lvModpacks.UseCompatibleStateImageBehavior = false;
@@ -813,7 +815,7 @@
             this.pgbInstallProgress.Value = 0;
             this.pgbInstallProgress.Visible = false;
             // 
-            // Form1
+            // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -823,7 +825,7 @@
             this.Controls.Add(this.pnlStatus);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(575, 582);
-            this.Name = "Form1";
+            this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Matix\'s Mod Installer";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
@@ -890,7 +892,6 @@
         private System.Windows.Forms.ImageList imglstButtonImgs;
         private System.Windows.Forms.Panel pnlMenu;
         private System.Windows.Forms.FlowLayoutPanel flpMenu;
-        private System.Windows.Forms.Button btnEditModpackSources;
         private System.Windows.Forms.Button btnStartMinecraftLauncher;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label7;
@@ -903,7 +904,7 @@
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel3;
         private System.Windows.Forms.Label lblVersion;
         private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label lblNothingSelected;
         private System.Windows.Forms.Button btnUpdate;
         private System.Windows.Forms.Button btnUninstall;
         private ProgressBarWT pgbInstallProgress;
@@ -919,6 +920,7 @@
         private System.Windows.Forms.Button btnSearch;
         private System.Windows.Forms.Panel pnlSearchBoxWrapper;
         private System.Windows.Forms.ToolTip tltMain;
+        private System.Windows.Forms.Button btnOptions;
     }
 }
 
