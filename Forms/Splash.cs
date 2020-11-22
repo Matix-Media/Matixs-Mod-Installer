@@ -42,6 +42,17 @@ namespace Matixs_Mod_Installer
 
             Updater.GitHubRepo = "/Matix-Media/Matixs-Mod-Installer";
 
+
+            if (Environment.GetCommandLineArgs().Contains("--force-update"))
+            {
+                Updater.ForceUpdate = true;
+                _log.Info("Force Updating (Version " + Updater.LatestVersion + ")...");
+                lblStatus.Text = "Installing Force Update...";
+                Refresh();
+                System.Threading.Thread.Sleep(1000);
+                Updater.Update(new string[0]);
+            }
+
             if (Updater.HasUpdate)
             {
                 _log.Info("Update found. Restarting to install.");
@@ -82,13 +93,25 @@ namespace Matixs_Mod_Installer
                             string shortcutLocation = Path.GetFullPath("C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\Minecraft\\Minecraft.lnk");
 
                             string defaultLauncherLocation = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86), "Minecraft", "MinecraftLauncher.exe");
+                            List<string> possibleDefaultLocations = new List<string>() { 
+                                Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86), "Minecraft", "MinecraftLauncher.exe"),
+                                Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86), "Minecraft Launcher", "MinecraftLauncher.exe"),
+                                Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86), "MinecraftLauncher", "MinecraftLauncher.exe")
+                            };
 
-                            if (File.Exists(defaultLauncherLocation))
+                            bool launcherFound = false;
+                            foreach(string loc in possibleDefaultLocations)
                             {
-                                Memory.launcherFound = true;
-                                Memory.minecraftLauncherLocation = defaultLauncherLocation;
+                                if (File.Exists(loc))
+                                {
+                                    Memory.launcherFound = true;
+                                    Memory.minecraftLauncherLocation = defaultLauncherLocation;
+                                    launcherFound = true;
+                                    _log.Debug("Launcher found in Default Location: " + loc);
+                                }
                             }
-                            else
+                            
+                            if (!launcherFound)
                             {
 
                                 if (File.Exists(shortcutLocation))

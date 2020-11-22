@@ -16,6 +16,8 @@ using System.Runtime.InteropServices;
 using System.IO.Compression;
 using System.Diagnostics;
 using System.Security.Cryptography;
+using Newtonsoft.Json.Schema.Generation;
+using Newtonsoft.Json.Schema;
 
 namespace Matixs_Mod_Installer
 {
@@ -82,6 +84,8 @@ namespace Matixs_Mod_Installer
             Memory.loadedModpacks.Clear();
             pnlLoadingModpacks.Visible = true;
             int counter = 0;
+            JSchemaGenerator generator = new JSchemaGenerator();
+            JSchema schema = generator.Generate(typeof(ModpackList));
             List<string> loadedUIDs = new List<string>();
             using (WebClient webClient = new WebClient())
             {
@@ -90,6 +94,11 @@ namespace Matixs_Mod_Installer
                 {
                     _log.Info("Loading Modpacks from Source: " + source);
                     string result = await webClient.DownloadStringTaskAsync(source);
+                    if (!JObject.Parse(result).IsValid(schema))
+                    {
+                        _log.Warn("Modpack Source not valid: " + source);
+                        continue;
+                    }
                     ModpackList modpacks = JsonConvert.DeserializeObject<ModpackList>(result);
                     _log.Debug("Modpacks Provider: " + modpacks.Provider + "(" + modpacks.Website + ")");
                     foreach (Modpack modpack in modpacks.Modpacks)

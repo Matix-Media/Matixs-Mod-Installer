@@ -12,6 +12,9 @@ namespace AutoUpdate
 {
 	static class Updater
 	{
+
+		private static readonly NLog.Logger _log = NLog.LogManager.GetCurrentClassLogger();
+
 		static readonly Lazy<IDictionary<Version, Uri>> _lazyVersionUrls =
 			new Lazy<IDictionary<Version, Uri>>(() => _GetVersionUrls());
 
@@ -45,6 +48,10 @@ namespace AutoUpdate
 		{
 			get
 			{
+				foreach (dynamic dyn in _lazyVersionUrls.Value)
+                {
+					_log.Debug("LazyVersionUrls.Value: " + dyn.ToString());
+				}
 				return _lazyVersionUrls.Value;
 			}
 		}
@@ -94,6 +101,7 @@ namespace AutoUpdate
 					}
 				}
 			}
+			_log.Debug("_GetVersionUrls: " + result.ToString());
 			return result;
 		}
 		public static bool HasUpdate
@@ -107,14 +115,18 @@ namespace AutoUpdate
 				return false;
 			}
 		}
+
+		public static bool ForceUpdate = false;
+
 		public static Version LatestVersion
 		{
 			get
 			{
 				var v = Assembly.GetEntryAssembly().GetName().Version;
 				var va = new List<Version>(_VersionUrls.Keys);
-				va.Add(v);
+				if (!ForceUpdate) va.Add(v);
 				va.Sort();
+				_log.Debug("Latest Version: " + va[va.Count - 1]);
 				return va[va.Count - 1];
 			}
 		}
@@ -161,8 +173,17 @@ namespace AutoUpdate
 				}
 				psi.Arguments = sb.ToString();
 				psi.FileName = exename;
-				var proc = Process.Start(psi);
-				Application.Exit();
+				psi.Verb = "runas";
+				try
+                {
+					var proc = Process.Start(psi);
+				} catch (Exception e)
+                {
+					_log.Fatal("Could not Launch auto updater: " + e.ToString());
+					MessageBox.Show("Could not Launch auto updater. \nPlease restart the program and try updating again. If that does not help, Please consider updating manually.", "Update Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+
+                Application.Exit();
 			}
 
 		}

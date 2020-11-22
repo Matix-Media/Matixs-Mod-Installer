@@ -18,6 +18,7 @@ namespace Matixs_Mod_Installer
         public static readonly string logLocation = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), ".matixs_mod_installer", "matixs_mod_installer__d.log");
         public static readonly string minecraftLocation = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), ".minecraft");
         public static readonly string jreLocation = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), ".matixs_mod_installer", "jre");
+
         public static string minecraftLauncherLocation = null;
 
         public static readonly string otherSourcesFile = "https://raw.githubusercontent.com/Matix-Media/matixs-mod-installer-infos/main/other-sources.json";
