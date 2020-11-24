@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using AutoUpdate;
-
+using System.Diagnostics;
 
 namespace Matixs_Mod_Installer
 {
@@ -34,11 +34,31 @@ namespace Matixs_Mod_Installer
 
         }
 
+        private void restartWithPerms(string[] args)
+        {
+            var psi = new ProcessStartInfo();
+            psi.FileName = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            psi.Verb = "runas";
+            psi.Arguments = String.Join(" ", args);
+
+            _log.Info("Restarting app at \"" + psi.FileName + "\" with parameters \"" + psi.Arguments + "\"...");
+            try
+            {
+                var proc = Process.Start(psi);
+            } catch (Exception e)
+            {
+                _log.Fatal("Could not restart app: " + e.ToString());
+                MessageBox.Show("Could not restart app.\nIf the error recurs please contact our team.\n" + e.ToString(), "Restart Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            Application.Exit();
+            System.Threading.Thread.CurrentThread.Abort();
+        }
+
         public bool loadSettings()
         {
             lblStatus.Text = "Checking for Updates...";
             _log.Info("Checking for Updates...");
-            Refresh();
+            lblStatus.Refresh();
 
             Updater.GitHubRepo = "/Matix-Media/Matixs-Mod-Installer";
 
@@ -48,18 +68,18 @@ namespace Matixs_Mod_Installer
                 Updater.ForceUpdate = true;
                 _log.Info("Force Updating (Version " + Updater.LatestVersion + ")...");
                 lblStatus.Text = "Installing Force Update...";
-                Refresh();
+                lblStatus.Refresh();
                 System.Threading.Thread.Sleep(1000);
-                Updater.Update(new string[0]);
+                restartWithPerms(new string[2] {"--force-update", "--update-initialization" });
             }
 
             if (Updater.HasUpdate)
             {
                 _log.Info("Update found. Restarting to install.");
                 lblStatus.Text = "Installing new Version...";
-                Refresh();
+                lblStatus.Refresh();
                 System.Threading.Thread.Sleep(1000);
-                Updater.Update(new string[0]);
+                restartWithPerms(new string[1] { "--update-initialization" });
             } else
             {
                 _log.Info("No updates found.");
@@ -67,7 +87,7 @@ namespace Matixs_Mod_Installer
 
 
             lblStatus.Text = "Loading Settings...";
-            Refresh();
+            lblStatus.Refresh();
 
             
 

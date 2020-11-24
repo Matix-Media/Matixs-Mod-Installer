@@ -48,10 +48,7 @@ namespace AutoUpdate
 		{
 			get
 			{
-				foreach (dynamic dyn in _lazyVersionUrls.Value)
-                {
-					_log.Debug("LazyVersionUrls.Value: " + dyn.ToString());
-				}
+				
 				return _lazyVersionUrls.Value;
 			}
 		}
@@ -101,7 +98,6 @@ namespace AutoUpdate
 					}
 				}
 			}
-			_log.Debug("_GetVersionUrls: " + result.ToString());
 			return result;
 		}
 		public static bool HasUpdate
@@ -183,7 +179,7 @@ namespace AutoUpdate
 					MessageBox.Show("Could not Launch auto updater. \nPlease restart the program and try updating again. If that does not help, Please consider updating manually.", "Update Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
 
-                Application.Exit();
+				Environment.Exit(0);
 			}
 
 		}

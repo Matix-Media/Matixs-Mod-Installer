@@ -62,6 +62,9 @@ namespace Matixs_Mod_Installer
             {
                 Memory.launcherFound = false;
             }
+
+            this.DialogResult = DialogResult.OK;
+            this.Close();
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
