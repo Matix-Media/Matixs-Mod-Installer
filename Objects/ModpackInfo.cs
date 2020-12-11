@@ -15,5 +15,6 @@ namespace Matixs_Mod_Installer
         public string InstalledOn { get; set; }
         public string VersionId { get; set; }
         public string UID { get; set; }
+        public List<Mod> Mods { get; set; }
     }
 }

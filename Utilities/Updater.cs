@@ -32,7 +32,8 @@ namespace AutoUpdate
 				for (var i = 0; i < names.Length; i++)
 				{
 					var name = names[i];
-					if (name.Contains(".ZZupdater0."))
+					_log.Info("Asset Name: " + name);
+					if (name.Contains(".ZZupdater0.") || name.Contains(".Matix.Controls.Progressbar."))
 					{
 						try
 						{
@@ -136,7 +137,9 @@ namespace AutoUpdate
 			for (var i = 0; i < names.Length; i++)
 			{
 				var name = names[i];
-				if (name.Contains(".ZZupdater0."))
+
+				_log.Info("Asset Name: " + name);
+				if (name.Contains(".ZZupdater0.") || name.Contains(".Matix.Controls.Progressbar."))
 				{
 					var respath = name;
 					if (string.IsNullOrEmpty(exename) && name.EndsWith(".exe"))

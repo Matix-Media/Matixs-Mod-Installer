@@ -21,11 +21,20 @@ namespace Matixs_Mod_Installer
             Utils.initLogger();
             _log = NLog.LogManager.GetCurrentClassLogger();
             _log.Info("Starting App at " + DateTime.Now.ToString());
+
+            
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            
+
+            MainForm mainForm = new MainForm();
+
             if (checkForUpdateInit() == false)
-                Application.Run(new MainForm());
+                Application.Run(mainForm);
+
+            
+
+            Utilities.SingletonController.Cleanup();
         }
 
         private static bool checkForUpdateInit()

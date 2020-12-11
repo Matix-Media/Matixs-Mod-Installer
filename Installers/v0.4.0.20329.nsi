@@ -2,7 +2,7 @@
 
 ; HM NIS Edit Wizard helper defines
 !define PRODUCT_NAME "Matix's Mod Installer"
-!define PRODUCT_VERSION "0.4.0.20329"
+!define PRODUCT_VERSION "0.5.2.20344"
 !define PRODUCT_PUBLISHER "Matix Media, Inc."
 !define PRODUCT_WEB_SITE "https://github.com/Matix-Media/Matixs-Mod-Installer"
 !define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\Matixs Mod Installer.exe"

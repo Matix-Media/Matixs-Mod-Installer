@@ -2,6 +2,7 @@
 using Shell32;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
@@ -14,6 +15,8 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Reflection;
+using Microsoft.Win32;
 
 namespace Matixs_Mod_Installer
 {
@@ -22,6 +25,10 @@ namespace Matixs_Mod_Installer
    public static class Utils
     {
         private static readonly NLog.Logger _log = NLog.LogManager.GetCurrentClassLogger();
+
+
+        const string UriScheme = "mmi";
+        const string FriendlyName = "Matix's Mod Installer";
 
         public static DialogResult ShowInputDialog(ref string input, string title = "Enter Text", int width = 200)
         {
@@ -100,23 +107,32 @@ namespace Matixs_Mod_Installer
                 return Memory.imageCache[URL];
             } else
             {
-                System.Net.WebRequest request = System.Net.WebRequest.Create(URL);
-                System.Net.WebResponse response = await request.GetResponseAsync();
-                System.IO.Stream responseStream = response.GetResponseStream();
-                Bitmap responseImg = new Bitmap(responseStream);
+                try
+                {
+                    System.Net.WebRequest request = System.Net.WebRequest.Create(URL);
+                    System.Net.WebResponse response = await request.GetResponseAsync();
+                    System.IO.Stream responseStream = response.GetResponseStream();
+                    Bitmap responseImg = new Bitmap(responseStream);
 
-                if (!Memory.imageCache.ContainsKey(URL))
-                {
-                    if (Memory.imageCache.Count > 19)
+                    if (!Memory.imageCache.ContainsKey(URL))
                     {
-                        Memory.imageCache.Remove(Memory.imageCache.First().Key);
+                        if (Memory.imageCache.Count > 19)
+                        {
+                            Memory.imageCache.Remove(Memory.imageCache.First().Key);
+                        }
+                        Memory.imageCache.Add(URL, responseImg);
+                        return responseImg;
                     }
-                    Memory.imageCache.Add(URL, responseImg);
-                    return responseImg;
-                } else
+                    else
+                    {
+                        return Memory.imageCache[URL];
+                    }
+                } catch (Exception e)
                 {
-                    return Memory.imageCache[URL];
+                    _log.Error(e, "Could not load image from URL!");
+                    return Properties.Resources.No_Image_Icon;
                 }
+                
                 
                 
             }
@@ -153,6 +169,16 @@ namespace Matixs_Mod_Installer
         {
             if (string.IsNullOrEmpty(value)) return value;
             return value.Length <= maxLength ? value : value.Substring(0, maxLength) + signal;
+        }
+
+        public static void AppendText(this RichTextBox box, string text, Color color)
+        {
+            box.SelectionStart = box.TextLength;
+            box.SelectionLength = 0;
+
+            box.SelectionColor = color;
+            box.AppendText(text);
+            box.SelectionColor = box.ForeColor;
         }
 
         public static async Task PutTaskDelay(int Miliesconds)
@@ -245,6 +271,63 @@ namespace Matixs_Mod_Installer
         {
             return (new WindowsPrincipal(WindowsIdentity.GetCurrent()))
                       .IsInRole(WindowsBuiltInRole.Administrator);
+        }
+
+        public static SizeF getFontSize(string text, Font font)
+        {
+            Image fakeImg = new Bitmap(1, 1);
+            Graphics graphics = Graphics.FromImage(fakeImg);
+
+            return graphics.MeasureString(text, font);
+        }
+
+        public static DataTable createDataTable<T>(IEnumerable<T> list)
+        {
+            Type type = typeof(T);
+            var properties = type.GetProperties();
+
+            DataTable dataTable = new DataTable();
+            foreach (PropertyInfo info in properties)
+            {
+                dataTable.Columns.Add(new DataColumn(info.Name, Nullable.GetUnderlyingType(info.PropertyType) ?? info.PropertyType));
+                
+            }
+
+            foreach (T entity in list)
+            {
+                object[] values = new object[properties.Length];
+                for (int i = 0; i < properties.Length; i++)
+                {
+                    values[i] = properties[i].GetValue(entity);
+                }
+
+                dataTable.Rows.Add(values);
+            }
+
+            return dataTable;
+        }
+
+        public static void RegisterUriScheme()
+        {
+            using (var key = Registry.CurrentUser.CreateSubKey("SOFTWARE\\Classes\\" + UriScheme))
+            {
+                // Replace typeof(App) by the class that contains the Main method or any class located in the project that produces the exe.
+                // or replace typeof(App).Assembly.Location by anything that gives the full path to the exe
+                string applicationLocation = typeof(Program).Assembly.Location;
+
+                key.SetValue("", "URL:" + FriendlyName);
+                key.SetValue("URL Protocol", "");
+
+                using (var defaultIcon = key.CreateSubKey("DefaultIcon"))
+                {
+                    defaultIcon.SetValue("", applicationLocation + ",1");
+                }
+
+                using (var commandKey = key.CreateSubKey(@"shell\open\command"))
+                {
+                    commandKey.SetValue("", "\"" + applicationLocation + "\" \"%1\"");
+                }
+            }
         }
     }
 }

@@ -36,6 +36,8 @@
             this.btnEditSources = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
+            this.btnCheckUpdates = new System.Windows.Forms.Button();
+            this.lblCheckUpdates = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -45,7 +47,7 @@
             this.panel1.Controls.Add(this.btnCancel);
             this.panel1.Controls.Add(this.btnSave);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel1.Location = new System.Drawing.Point(0, 260);
+            this.panel1.Location = new System.Drawing.Point(0, 163);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(342, 47);
             this.panel1.TabIndex = 6;
@@ -87,7 +89,7 @@
             // 
             // btnEditSources
             // 
-            this.btnEditSources.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnEditSources.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnEditSources.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(252)))), ((int)(((byte)(252)))));
             this.btnEditSources.FlatAppearance.BorderSize = 0;
             this.btnEditSources.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -101,7 +103,7 @@
             // 
             // button1
             // 
-            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(252)))), ((int)(((byte)(252)))));
             this.button1.FlatAppearance.BorderSize = 0;
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -122,6 +124,30 @@
             this.label2.TabIndex = 9;
             this.label2.Text = "Minecraft Launcher Location";
             // 
+            // btnCheckUpdates
+            // 
+            this.btnCheckUpdates.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCheckUpdates.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(252)))), ((int)(((byte)(252)))));
+            this.btnCheckUpdates.FlatAppearance.BorderSize = 0;
+            this.btnCheckUpdates.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCheckUpdates.Location = new System.Drawing.Point(243, 104);
+            this.btnCheckUpdates.Name = "btnCheckUpdates";
+            this.btnCheckUpdates.Size = new System.Drawing.Size(87, 27);
+            this.btnCheckUpdates.TabIndex = 10;
+            this.btnCheckUpdates.Tag = "0";
+            this.btnCheckUpdates.Text = "Check";
+            this.btnCheckUpdates.UseVisualStyleBackColor = false;
+            this.btnCheckUpdates.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // lblCheckUpdates
+            // 
+            this.lblCheckUpdates.AutoSize = true;
+            this.lblCheckUpdates.Location = new System.Drawing.Point(12, 110);
+            this.lblCheckUpdates.Name = "lblCheckUpdates";
+            this.lblCheckUpdates.Size = new System.Drawing.Size(104, 15);
+            this.lblCheckUpdates.TabIndex = 11;
+            this.lblCheckUpdates.Text = "Check for Updates";
+            // 
             // Options
             // 
             this.AcceptButton = this.btnSave;
@@ -129,7 +155,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(342, 307);
+            this.ClientSize = new System.Drawing.Size(342, 210);
+            this.Controls.Add(this.btnCheckUpdates);
+            this.Controls.Add(this.lblCheckUpdates);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.btnEditSources);
@@ -158,5 +186,7 @@
         private System.Windows.Forms.Button btnEditSources;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button btnCheckUpdates;
+        private System.Windows.Forms.Label lblCheckUpdates;
     }
 }

@@ -31,7 +31,14 @@ namespace Matixs_Mod_Installer
 
         private void Splash_Shown(object sender, EventArgs e)
         {
+            bool result;
+            _ = new System.Threading.Mutex(true, "ecbc036d-7aa5-4538-8b88-b3f667fff55e", out result);
 
+            if (!result)
+            {
+                _log.Error("Application already running. Closing...");
+                return;
+            }
         }
 
         private void restartWithPerms(string[] args)
@@ -51,7 +58,7 @@ namespace Matixs_Mod_Installer
                 MessageBox.Show("Could not restart app.\nIf the error recurs please contact our team.\n" + e.ToString(), "Restart Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             Application.Exit();
-            System.Threading.Thread.CurrentThread.Abort();
+            return;
         }
 
         public bool loadSettings()
@@ -60,7 +67,7 @@ namespace Matixs_Mod_Installer
             _log.Info("Checking for Updates...");
             lblStatus.Refresh();
 
-            Updater.GitHubRepo = "/Matix-Media/Matixs-Mod-Installer";
+            Updater.GitHubRepo = Memory.githubRepository;
 
 
             if (Environment.GetCommandLineArgs().Contains("--force-update"))
@@ -217,13 +224,15 @@ namespace Matixs_Mod_Installer
                 webClient.CachePolicy = new System.Net.Cache.RequestCachePolicy(System.Net.Cache.RequestCacheLevel.BypassCache);
 
                 _log.Info("Downloading Forge Source Infos...");
-
                 string result = webClient.DownloadString(Memory.forgeSourcesFile);
                 Memory.forgeSources = JsonConvert.DeserializeObject<Dictionary<string, List<string>>>(result);
 
                 _log.Info("Downloading Trusted Modpack Sources...");
                 result = webClient.DownloadString(Memory.trustedSourcesFile);
                 Memory.trustedSources = JsonConvert.DeserializeObject<List<string>>(result);
+
+                _log.Info("Downloading Markdown style...");
+                Memory.markdownStyle = webClient.DownloadString(Memory.markdownFile);
             }
 
             _log.Info("Loaded Settings!");

@@ -185,7 +185,7 @@ namespace Matixs_Mod_Installer
                 this.Invalidate();
             }
         }
-
+        /*
         private void Draw3DBorder(Graphics g)
         {
             int PenWidth = (int)Pens.White.Width;
@@ -202,6 +202,6 @@ namespace Matixs_Mod_Installer
             g.DrawLine(Pens.White,
             new Point(this.ClientRectangle.Width - PenWidth, this.ClientRectangle.Top),
             new Point(this.ClientRectangle.Width - PenWidth, this.ClientRectangle.Height - PenWidth));
-        }
+        }*/
     }
 }

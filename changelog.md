@@ -20,3 +20,15 @@
 - [X] [Bug] Close options menu when clicking on save
 - [X] Removing .Net Schema because of rate limit
 - [X] Updater redesign
+
+# v0.5.2.20344
+- [X] Single-Instance
+- [X] Schema-Links to start Launcher
+- [X] Don't raise error when icons can not be loaded
+- [X] Change layout of description box
+- [X] Massive Design Improvements
+- [X] About Dialog
+- [X] Check for updates from settings
+
+# v0.5.18.20346
+- [x] Fixed and improved auto updater

@@ -17,16 +17,24 @@ using System.IO.Compression;
 using System.Diagnostics;
 using System.Security.Cryptography;
 using Newtonsoft.Json.Schema;
+using CefSharp.WinForms;
+using CefSharp;
+using CommonMark;
 
 namespace Matixs_Mod_Installer
 {
     public partial class MainForm : Form
     {
-        
+
+        public bool loadComplete = false;
 
         private static readonly NLog.Logger _log = NLog.LogManager.GetCurrentClassLogger();
         private bool installing = false;
         private string installingUID;
+
+
+        public ChromiumWebBrowser browser;
+
 
         public MainForm()
         {
@@ -593,20 +601,38 @@ namespace Matixs_Mod_Installer
             }
         }
 
+        private DataTable modsTable = new DataTable();
         private async Task selectModpack(Modpack modpack)
         {
+            // Timestamp Format: yyyy-MM-dd'T'HH:mm:ss.fff'Z'
+
+            // Browser first, because it takes the longest
+            browser.LoadHtml("<style>" + Memory.markdownStyle + "</style>" + CommonMarkConverter.Convert(modpack.Description));
+
+            pnlInstalledVersion.Visible = false;
+
             pnlDetails.Visible = true;
             lblName.Text = modpack.Name;
             lblCreator.Text = modpack.Creator;
+            lblLastChanged.Text = DateTime.Parse(modpack.LastChanged).ToString("MM'/'dd'/'yyyy");
             lblMinecraftVersion.Text = modpack.McVersion;
-            lblModpackVersion.Text = modpack.Version;
-            lblDescription.Text = modpack.Description.truncateString(200, "...");
-            rtbDescription.Text = modpack.Description;
-            rtbDescription.Visible = false;
-            lblDescription.Visible = true;
-            llblSourceFile.Text = modpack.ModpackDownload.truncateString(100, "...");
+            //rtbDescription.Text = modpack.Description;
+            
+            llblSourceFile.Text = Path.GetFileName(modpack.ModpackDownload).truncateString(100, "...");
             llblSourceFile.Tag = modpack.ModpackDownload;
-            tltMain.SetToolTip(llblSourceFile, modpack.ModpackDownload);
+
+            lblModpackVersion.Text = modpack.Version;
+
+            if (Memory.forgeSources.ContainsKey(modpack.McVersion))
+            {
+                llblForgeSource.Text = Path.GetFileName(Memory.forgeSources[modpack.McVersion][0]).truncateString(50, "...");
+                llblForgeSource.Tag = Memory.forgeSources[modpack.McVersion][0];
+            } else
+            {
+                llblForgeSource.Text = "N/A";
+                llblForgeSource.Tag = null;
+            }
+
             btnInstallMopack.Width = pnlInstall.Width - 6;
             btnUpdate.Visible = false;
             btnUninstall.Visible = false;
@@ -614,26 +640,12 @@ namespace Matixs_Mod_Installer
             btnInstallMopack.Tag = modpack;
             btnUpdate.Tag = modpack;
 
+
+
+            this.Text = "Matix's Mod Installer - " + modpack.Name + " (" + modpack.McVersion + ") by " + modpack.Creator;
+
             try
             {
-                this.Text = "Matix's Mod Installer - " + modpack.Name + " (" + modpack.McVersion + ") by " + modpack.Creator;
-
-                if (!Memory.forgeSources.ContainsKey(modpack.McVersion))
-                {
-                    MessageBox.Show("No Minecraft Forge Version found fitting this Modpack.", "No Version Found", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    _log.Error("No Minecraft Forge Version found fitting the Modpack \"" + modpack.Name + "\"(" + modpack.McVersion + ")");
-                    llblForgeFile.Text = "N/A";
-                    llblForgeFile.Tag = null;
-                    tltMain.SetToolTip(llblForgeFile, "");
-                }
-                else
-                {
-                    llblForgeFile.Text = Memory.forgeSources[modpack.McVersion][0].truncateString(100, "...");
-                    llblForgeFile.Tag = Memory.forgeSources[modpack.McVersion][0];
-
-                    tltMain.SetToolTip(llblForgeFile, Memory.forgeSources[modpack.McVersion][0]);
-                }
-
                 if (installing == true && installingUID == modpack.UID)
                 {
                     pnlInstall.Height = 103;
@@ -647,6 +659,7 @@ namespace Matixs_Mod_Installer
                     pnlInstall.Height = 56;
                     pgbInstallProgress.Visible = false;
                     lblInstallStatus.Visible = false;
+
 
                     string modpackDirectory = Path.Combine(Memory.modpacksLocation, Utils.convertIllegalPath(modpack.UID));
                     if (Directory.Exists(modpackDirectory))
@@ -663,20 +676,35 @@ namespace Matixs_Mod_Installer
 
                         btnUninstall.Visible = true;
 
-                        using (StreamReader r = new StreamReader(Path.Combine(modpackDirectory, "mmi_mpi.json")))
+                        if (File.Exists(Path.Combine(modpackDirectory, "mmi_mpi.json")))
                         {
-                            ModpackInfo modpackInfo = JsonConvert.DeserializeObject<ModpackInfo>(await r.ReadToEndAsync());
-                            if (modpackInfo.Version != modpack.Version)
+                            using (StreamReader r = new StreamReader(Path.Combine(modpackDirectory, "mmi_mpi.json")))
                             {
-                                btnInstallMopack.Width = pnlInstall.Width - btnUpdate.Width - btnUninstall.Width - 29;
-                                btnUpdate.Visible = true;
+                                ModpackInfo modpackInfo = JsonConvert.DeserializeObject<ModpackInfo>(await r.ReadToEndAsync());
+                                lblForgeInstallation.Text = modpackInfo.VersionId;
+
+                                lblInstalledVersion.Text = modpackInfo.Version;
+                                pnlInstalledVersion.Visible = true;
+
+                                if (modpackInfo.Version != modpack.Version)
+                                {
+                                    btnInstallMopack.Width = pnlInstall.Width - btnUpdate.Width - btnUninstall.Width - 29;
+                                    btnUpdate.Visible = true;
+                                }
+                                else
+                                {
+                                    btnInstallMopack.Width = pnlInstall.Width - btnUninstall.Width - 16;
+                                    btnUpdate.Visible = false;
+                                }
                             }
-                            else
-                            {
-                                btnInstallMopack.Width = pnlInstall.Width - btnUninstall.Width - 16;
-                                btnUpdate.Visible = false;
-                            }
+                        } else
+                        {
+                            _log.Warn("Local Modpack Information is missing.");
+                            MessageBox.Show("Seems like some of the local Modpack informations are missing. Updating the Modpack to fix this issue.", "Information Missing", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            await installModpack(modpack);
+                            return;
                         }
+                        
 
 
 
@@ -708,18 +736,49 @@ namespace Matixs_Mod_Installer
                     pcbIcon.Image = await Utils.loadBitmapFromUrl(modpack.Icon);
                 else
                     pcbIcon.Image = Utils.emptyBitmap();
+
             } catch (Exception e)
             {
                 _log.Error("Error: Could not load Modpack details.");
                 if (Directory.Exists(Path.Combine(Memory.modpacksLocation, Utils.convertIllegalPath(modpack.UID))))
                 {
                     _log.Info(e, "Error: Uninstalling Modpack to fix bug.");
-                    MessageBox.Show("Could not load Modpack details. Uninstalling this Modpack to fix this issue.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    await uninstallModpack(modpack);
+                    DialogResult uninstall = MessageBox.Show("Could not load Modpack details. Should the Modpack be uninstalled to fix this issue?", "Error", MessageBoxButtons.OKCancel, MessageBoxIcon.Error);
+                    if (uninstall == DialogResult.OK)
+                    {
+                        await uninstallModpack(modpack);
+                        return;
+                    }
+                    else
+                    pnlDetails.Visible = false;
                 }
             }
 
-            
+            modsTable = Utils.createDataTable(modpack.Mods);
+
+            modsTable.Columns.Add("WebsiteShort");
+            modsTable.Columns.Add("WebsiteShortArea", typeof(LinkArea));
+
+            foreach (DataRow row in modsTable.Rows)
+            {
+                row.SetField("WebsiteShort", row.Field<string>("Website").truncateString(50, "..."));
+                LinkArea linkArea = new LinkArea(0, row.Field<string>("Website").truncateString(50, "...").Length);
+                row.SetField("WebsiteShortArea", linkArea);
+            }
+
+            modName.DataBindings.Clear();
+            modWebsite.DataBindings.Clear();
+            modVersion.DataBindings.Clear();
+
+            modName.DataBindings.Add("Text", modsTable, "Name");
+            modVersion.DataBindings.Add("Text", modsTable, "Version");
+            modWebsite.DataBindings.Add("Text", modsTable, "WebsiteShort");
+            modWebsite.DataBindings.Add("Tag", modsTable, "Website");
+            modWebsite.DataBindings.Add("LinkArea", modsTable, "WebsiteShortArea");
+
+            drMods.DataSource = modsTable;
+
+
         }
 
         private async void lvModpacks_SelectedIndexChanged(object sender, EventArgs e)
@@ -766,8 +825,28 @@ namespace Matixs_Mod_Installer
             Application.DoEvents();
             System.Threading.Thread.Sleep(1000);
             Application.DoEvents();
+
+            _log.Info("Registering URL Schema...");
+            Utils.RegisterUriScheme();
+
+            Application.DoEvents();
             splash.loadSettings();
             Application.DoEvents();
+
+
+            _log.Info("Initializing browser...");
+            browser = new ChromiumWebBrowser("", null);
+            browser.MenuHandler = new Utilities.CefSharp.CustomMenuHandler();
+
+            browser.LoadHtml("<h1>Loading...</h1>");
+            tpOverview.Controls.Add(browser);
+            browser.Refresh();
+
+            while (browser.IsLoading)
+            {
+                Application.DoEvents();
+            }
+
             System.Threading.Thread.Sleep(1000);
             splash.Close();
 
@@ -775,7 +854,8 @@ namespace Matixs_Mod_Installer
             this.Location = Memory.mainFormLocation;
             this.Size = Memory.mainFormSize;
             this.WindowState = Memory.mainFormState;
-            
+
+            loadComplete = true;
         }
 
         private void LinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -785,15 +865,6 @@ namespace Matixs_Mod_Installer
             Process.Start(url);
         }
 
-        private void lblDescription_Click(object sender, EventArgs e)
-        {
-            if (lblDescription.Text != rtbDescription.Text)
-            {
-                lblDescription.Visible = false;
-                rtbDescription.Visible = true;
-                rtbDescription.Size = lblDescription.Size;
-            }
-        }
 
         private async void btnRefresh_Click(object sender, EventArgs e)
         {
@@ -828,7 +899,7 @@ namespace Matixs_Mod_Installer
             lvModpacks.Columns[0].Width = columnWidth;
         }
 
-        private void searchModpacks(string search)
+        public void searchModpacks(string search)
         {
             Memory.searchHistory.Add(search);
             AutoCompleteStringCollection ac = new AutoCompleteStringCollection();
@@ -870,6 +941,36 @@ namespace Matixs_Mod_Installer
             {
                 dialog.ShowDialog();
             }
+        }
+
+        private void modWebsite_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start((string)((LinkLabel)sender).Tag);
+        }
+
+        private void llblForgeSource_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            if (llblForgeSource.Tag != null)
+                Process.Start((string)llblForgeSource.Tag);
+        }
+
+        private void lblVersion_Click(object sender, EventArgs e)
+        {
+            Forms.About dialog = new Forms.About();
+
+            dialog.ShowDialog();
+
+            dialog.Dispose();
+        }
+
+        private void lblVersion_MouseEnter(object sender, EventArgs e)
+        {
+            lblVersion.BackColor = ColorTranslator.FromHtml("#CACECE");
+        }
+
+        private void lblVersion_MouseLeave(object sender, EventArgs e)
+        {
+            lblVersion.BackColor = ColorTranslator.FromHtml("#E1E5E6");
         }
     }
 }
