@@ -1,6 +1,5 @@
-[![Total Downloads](https://img.shields.io/github/downloads/Matix-Media/Matixs-Mod-Installer/total?color=%233498db&style=for-the-badge)](https://github.com/Matix-Media/Matixs-Mod-Installer/releases/latest)
-[![GitHub](https://img.shields.io/github/license/Matix-Media/Matixs-Mod-Installer?color=%233498DB&style=for-the-badge)](/LICENSE)
 
+[![GitHub](https://img.shields.io/github/license/Matix-Media/Matixs-Mod-Installer?color=%233498DB&style=for-the-badge)](/LICENSE)
 
 # 🎮 Matix's Mod Installer
 
@@ -9,6 +8,7 @@ Matix's Mod Installer is a simple Installation Script for installing Minecraft M
 <img src="https://imgur.com/JUBhbKy.jpg" alt="Screenshot of Matix's Mod Installer" width="640">
 
 ## 📥 Installation
+[![Total Downloads](https://img.shields.io/github/downloads/Matix-Media/Matixs-Mod-Installer/total?color=%233498db&style=for-the-badge)](https://github.com/Matix-Media/Matixs-Mod-Installer/releases/latest)  
 In order to install Matix's Mod Installer, visit the [release page](https://github.com/Matix-Media/Matixs-Mod-Installer/releases/latest) and download the latest installer for Matix's Mod Installer.
 
 Latest Installer: [Matixs-Mod-Installer_setup.v0.5.18.20346.exe](https://github.com/Matix-Media/Matixs-Mod-Installer/releases/download/v0.5.18.20346/Matixs-Mod-Installer_setup.v0.5.18.20346.exe)
