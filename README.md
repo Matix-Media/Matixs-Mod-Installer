@@ -1,3 +1,6 @@
+![Total Downloads](https://img.shields.io/github/downloads/Matix-Media/Matixs-Mod-Installer/total?color=%233498db&style=for-the-badge)
+
+
 # Matix's Mod Installer
 
 Matix's Mod Installer is a simple Installation Script for installing Minecraft Modpacks. It is completely open source and has a limitless library on Modpacks from sources you can pick yourself.
