@@ -1,4 +1,5 @@
 ![Total Downloads](https://img.shields.io/github/downloads/Matix-Media/Matixs-Mod-Installer/total?color=%233498db&style=for-the-badge)
+![GitHub](https://img.shields.io/github/license/Matix-Media/Matixs-Mod-Installer?color=%233498DB&style=for-the-badge)
 
 
 # Matix's Mod Installer
