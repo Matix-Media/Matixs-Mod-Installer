@@ -8,7 +8,7 @@ async function getScreenshots() {
     const screenshotContainer = document.querySelector("img#screenshot-large-view");
 
     const screenshots = await axios({
-        url: "../screenshots/screenshots.json",
+        url: "media/screenshots/screenshots.json",
     });
 
     loading.classList.add("d-none");
