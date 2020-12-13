@@ -4,12 +4,13 @@ import { Utils } from "../app.js";
 const octokit = new Octokit();
 
 var files = {};
+var latestFile;
 
 async function getReleases() {
     const latestVersionBox = document.querySelector("div#latest");
     const latestSize = document.querySelector("span#latest-version-size");
     const latestName = document.querySelector("span#latest-version-file-name");
-    const latestVersionDownload = document.querySelector("button#latest-version-download");
+    var latestVersionDownload = document.querySelector("button#latest-version-download");
     const loadingBox = document.querySelector("div#versions-loading");
     const versionsBox = document.querySelector("div#all-versions");
 
@@ -26,6 +27,8 @@ async function getReleases() {
             files["latest"] = asset.browser_download_url;
             latestSize.innerHTML = Utils.bytesToSize(asset.size);
             latestName.innerHTML = `${releases.data[0].tag_name} &mdash; ${asset.name}`;
+
+            latestFile = asset.browser_download_url;
 
             if (window.location.hash.substr(1) == "latest") {
                 latestVersionDownload.classList.add("file-download-active");
@@ -97,6 +100,11 @@ async function getReleases() {
             });
         }
     }
+
+    latestVersionDownload = document.querySelector("button#latest-version-download");
+    latestVersionDownload.addEventListener("click", () => {
+        document.querySelector("iframe#file_download_wrapper").src = latestFile;
+    });
 }
 
 window.addEventListener("DOMContentLoaded", function () {
