@@ -1,1 +1,279 @@
-<h1>Matix's Mod Installer</h1>
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Matix's Mod Installer by Matix Media</title>
+        <link rel="shortcut icon" href="/media/icon.png" type="image/x-icon" />
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
+            crossorigin="anonymous"
+        />
+        <link rel="stylesheet" href="/media/styles.css" />
+    </head>
+    <body class="bg-light">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container">
+                <a class="navbar-brand" href="#">
+                    <img src="/media/icon.png" alt="" width="32px" class="me-2" />
+                    Matix's Mod Installer
+                </a>
+                <button
+                    class="navbar-toggler"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbarNavAltMarkup"
+                    aria-controls="navbarNavAltMarkup"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+                >
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                    <div class="navbar-nav">
+                        <a class="nav-link" href="/downloads.html">Download</a>
+                        <a class="nav-link" href="/screenshots.html">Screenshots</a>
+                        <a class="nav-link" href="/add-sources.html">Add Modpack Sources</a>
+                        <a
+                            class="nav-link"
+                            href="https://github.com/Matix-Media/Matixs-Mod-Installer"
+                            >GitHub</a
+                        >
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <header class="bg-primary py-5 mb-5">
+            <div class="overlay"></div>
+            <video playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop">
+                <source src="media/background.mp4" />
+            </video>
+            <div class="container h-100">
+                <div class="row h-100 align-items-center">
+                    <div class="col-lg-12">
+                        <h1 class="display-4 text-white mt-5 mb-2">Matix's Mod Installer</h1>
+                        <p class="lead text-white-50">A simple Minecraft modpack installer.</p>
+                        <a
+                            href="/downloads.html#latest"
+                            class="btn btn-orange btn-lg mb-5 shadow-sm"
+                        >
+                            <img src="/media/download-icon-white.svg" class="i" alt="" />
+                            Download now
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Page Content -->
+        <div class="container min-vh-100">
+            <div class="row">
+                <div class="col-md-8 mb-5 bg-white rounded shadow-sm py-3">
+                    <h2>What is Matix's Mod Installer?</h2>
+                    <hr />
+                    <p>
+                        Matix's Mod Installer is a free, open-source installer for Minecraft
+                        modpacks.
+                    </p>
+                    <p>
+                        Matix's Mod Installer gives you the possibility to publish your own publish
+                        your own and download modpacks from other people without having to worry
+                        about what is happening on your computer.
+                    </p>
+                    <a class="btn btn-orange shadow-sm" href="/downloads.html#latest"
+                        >Download now &raquo;</a
+                    >
+                </div>
+                <div class="col-md-4 mb-5" id="latest-version">
+                    <h2>Latest Version</h2>
+                    <hr />
+                    <div class="md-3" id="latest-loading">
+                        <div class="bg-white rounded shadow-sm p-3 d-flex align-items-center">
+                            <img
+                                src="/media/loading.gif"
+                                alt=""
+                                width="64px"
+                                class="d-inline-block"
+                            />
+                            <h5 class="d-inline-block ms-2">Loading...</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-8 mb-5 bg-white rounded shadow-sm py-3">
+                    <h2>Screenshots</h2>
+                    <hr />
+                    <div
+                        id="carouselExampleIndicators"
+                        class="carousel carousel-dark slide"
+                        data-bs-ride="carousel"
+                    >
+                        <ol class="carousel-indicators">
+                            <li
+                                data-bs-target="#carouselExampleIndicators"
+                                data-bs-slide-to="0"
+                                class="active"
+                            ></li>
+                            <li
+                                data-bs-target="#carouselExampleIndicators"
+                                data-bs-slide-to="1"
+                            ></li>
+                            <li
+                                data-bs-target="#carouselExampleIndicators"
+                                data-bs-slide-to="2"
+                            ></li>
+                        </ol>
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img
+                                    src="/media/screenshots/matixs_mod_installer_screenshot_v0.5.18.png"
+                                    class="d-block h-100 m-auto"
+                                    alt="Matix's Mod Installer Main Form"
+                                />
+                            </div>
+                            <div class="carousel-item">
+                                <img
+                                    src="/media/screenshots/matixs_mod_installer_screenshot_v0.5.18_about.png"
+                                    class="d-block h-100 m-auto"
+                                    alt="Matix's Mod Installer About Form"
+                                />
+                            </div>
+                            <div class="carousel-item">
+                                <img
+                                    src="/media/screenshots/matixs_mod_installer_screenshot_v0.5.18_modpack_sources.png"
+                                    class="d-block h-100 m-auto"
+                                    alt="Matix's Mod Installer Modpack Sources Form"
+                                />
+                            </div>
+                        </div>
+                        <a
+                            class="carousel-control-prev"
+                            href="#carouselExampleIndicators"
+                            role="button"
+                            data-bs-slide="prev"
+                        >
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </a>
+                        <a
+                            class="carousel-control-next"
+                            href="#carouselExampleIndicators"
+                            role="button"
+                            data-bs-slide="next"
+                        >
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </a>
+                    </div>
+                    <hr />
+                    <a class="btn btn-orange shadow-sm" href="/screenshots.html">More &raquo;</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer Main Area-->
+        <footer class="bg-dark p-0 text-white">
+            <!-- Grid row -->
+            <div class="container">
+                <div class="row m-0">
+                    <!-- Full-width single-column -->
+                    <div class="col-12">
+                        <!-- Footer content with background image -->
+                        <div class="text-center text-white m-0">
+                            <!-- Overlay above the background image -->
+                            <div class="mask rgba-blue-light m-0 py-3">
+                                <!-- Form, Advertisement or Map -->
+                                <div>
+                                    <h5>Matix's Mod Installer</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End of Full-width single-column -->
+
+                    <!-- Full-width multi-column -->
+                    <div class="col-12">
+                        <!-- Start grid row to divide into multi-column -->
+                        <div class="row">
+                            <!-- Multi-column 1 of 3-->
+                            <div class="col-md-4">
+                                <!-- Footer Item Content -->
+                                <h6 class="text-uppercase mt-2">Get in touch</h6>
+                                <ul class="list-unstyled pb-4">
+                                    <li class="">
+                                        <a class="text-white" href="https://matix-media.net#contact"
+                                            >Contact</a
+                                        >
+                                    </li>
+                                    <li class="">
+                                        <a class="text-white" href="mailto:support@matix-media.net"
+                                            >support@matix-media.net</a
+                                        >
+                                    </li>
+                                </ul>
+                            </div>
+                            <!-- Multi-column 2 of 3 -->
+                            <div class="col-md-4">
+                                <!-- Footer Item Content -->
+                                <h6 class="text-uppercase mt-2">Informations</h6>
+                                <ul class="list-unstyled pb-4">
+                                    <li class="">
+                                        <a
+                                            class="text-white"
+                                            href="https://github.com/Matix-Media/Matixs-Mod-Installer"
+                                            >GitHub Repository</a
+                                        >
+                                    </li>
+                                    <li class="">
+                                        <a
+                                            class="text-white"
+                                            href="https://matix-media.net/newsletter"
+                                            >Newsletter</a
+                                        >
+                                    </li>
+                                </ul>
+                            </div>
+                            <!-- Multi-column 3 of 3 -->
+                            <div class="col-md-4 d-flex flex-column align-items-center">
+                                <!-- Footer Item Content -->
+                                <img src="/media/icon.png" alt="" width="60rem" />
+
+                                <p class="h6 mt-3">Matix's Mod Installer</p>
+                            </div>
+                            <!-- Full-width column -->
+                        </div>
+                    </div>
+                    <!-- End of Full-width multi-column -->
+                </div>
+            </div>
+            <div class="col-12">
+                <!-- Footer Item Content -->
+                <div class="text-center py-2 bg-primary">
+                    <small class="text-center text-white">
+                        Copyright <span>©</span><span class="mr-2"></span>
+                        <span
+                            ><script>
+                                document.write(new Date().getFullYear());
+                            </script></span
+                        >
+                        <a class="text-white" href="https://matix-media.net">Matix Media, Inc.</a> -
+                        <span>All Rights Reserved.</span>
+                    </small>
+                </div>
+            </div>
+        </footer>
+        <!-- Footer -->
+
+        <!-- SCRIPT INCLUDES -->
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
+            crossorigin="anonymous"
+        ></script>
+        <script type="module" src="/media/js/home.js"></script>
+    </body>
+</html>

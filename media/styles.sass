@@ -1,0 +1,89 @@
+header
+    position: relative
+    background-color: black
+    height: 60vh
+    min-height: 25rem
+    width: 100%
+    overflow: hidden
+
+    .overlay
+        position: absolute
+        top: 0
+        left: 0
+        height: 100%
+        width: 100%
+        background-color: black
+        opacity: .5
+        z-index: 1
+
+    video
+        position: absolute
+        top: 50%
+        left: 50%
+        min-width: 100%
+        min-height: 100%
+        width: auto
+        height: auto
+        z-index: 0
+        transform: translateX(-50%) translateY(-50%)
+
+    .container
+        position: relative
+        z-index: 2
+
+.carousel-item
+    height: 24rem
+
+.bg-orange
+    background-color: #ED8936
+
+.btn-orange
+    background-color: #ED8936
+    border-color: #ED8936
+    color: white
+
+    &:hover, &:focus
+        background-color: #e97e27
+        boder-color: #e97e27
+        color: white
+
+    &:focus
+        box-shadow: 0 0 0 0.25rem rgba(233,126,39,.25)
+
+.text-orange
+    color: #ED8936 !important
+
+img.i
+    width: 1em
+    height: 1em
+
+div.download-box-versions
+    min-width: 30%
+
+div.file-download.active
+    background-color: white
+    animation: blink-animation 2s
+
+button.file-download-active
+    background-color: white
+    animation: blink-animation-button 2s
+
+@keyframes blink-animation
+    0%
+        background-color: white
+    50%
+        background-color: #f8ddc6
+
+@keyframes blink-animation-button
+    0%
+        background-color: white
+        border-color: white
+    50%
+        background-color: #f8ddc6
+        border-color: #f8ddc6
+
+div.screenshot-image-box
+    height: 225px
+    background-size: cover
+    background-repeat: no-repeat
+    background-position: center center
