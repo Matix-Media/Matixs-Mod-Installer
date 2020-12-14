@@ -16,7 +16,7 @@ async function getLatestRelease() {
 
     latestRelease.data.assets.forEach((asset) => {
         if (asset.browser_download_url.endsWith(".exe")) {
-            download = `<a class="d-block" href="/downloads.html#file-${asset.id}" id="latest-version-file-download">${asset.name}</a>`;
+            download = `<a class="d-block" href="downloads.html#file-${asset.id}" id="latest-version-file-download">${asset.name}</a>`;
         }
     });
 
