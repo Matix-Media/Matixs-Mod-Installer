@@ -13,6 +13,7 @@ async function getReleases() {
     var latestVersionDownload = document.querySelector("button#latest-version-download");
     const loadingBox = document.querySelector("div#versions-loading");
     const versionsBox = document.querySelector("div#all-versions");
+    var totalDownloads = 0;
 
     const releases = await octokit.repos.listReleases({
         owner: "Matix-Media",
@@ -22,11 +23,17 @@ async function getReleases() {
     loadingBox.classList.add("d-none");
     versionsBox.classList.remove("d-none");
 
+    releases.data.forEach((elem) => {
+        elem.assets.forEach((asset) => {
+            totalDownloads += asset.download_count;
+        });
+    });
+
     releases.data[0].assets.forEach((asset) => {
         if (asset.browser_download_url.endsWith(".exe")) {
             files["latest"] = asset.browser_download_url;
             latestSize.innerHTML = Utils.bytesToSize(asset.size);
-            latestName.innerHTML = `${releases.data[0].tag_name} &mdash; ${asset.name}`;
+            latestName.innerHTML = `${releases.data[0].tag_name} &mdash; ${asset.name} <span class="text-light"> &mdash; ${totalDownloads} total downloads</span>`;
 
             latestFile = asset.browser_download_url;
 
@@ -37,6 +44,12 @@ async function getReleases() {
     });
 
     releases.data.forEach((elem) => {
+        var downloads = 0;
+
+        elem.assets.forEach((asset) => {
+            downloads += asset.download_count;
+        });
+
         elem.assets.forEach((asset) => {
             if (asset.browser_download_url.endsWith(".exe")) {
                 files[asset.id] = asset.browser_download_url;
@@ -64,9 +77,7 @@ async function getReleases() {
                     date.getMonth()
                 )} ${date.getFullYear()}
                                 </span>
-                                <span class="d-block text-secondary">${
-                                    asset.download_count
-                                } Downloads</span>
+                                <span class="d-block text-secondary">${downloads} Downloads</span>
                                 <span class="d-block text-black-50"
                                     >${asset.name}</span
                                 >
@@ -95,15 +106,28 @@ async function getReleases() {
 
     for (const [key, value] of Object.entries(files)) {
         if (document.querySelector(`button#download-file-${key}`)) {
-            document.querySelector(`button#download-file-${key}`).addEventListener("click", () => {
-                document.querySelector("iframe#file_download_wrapper").src = value;
-            });
+            document
+                .querySelector(`button#download-file-${key}`)
+                .addEventListener("click", (elem) => {
+                    var text = elem.target.innerHTML;
+                    elem.target.innerHTML = `<img src="media/loading-white.gif" class="i me-2" />Preparing...`;
+                    document.querySelector("iframe#file_download_wrapper").src = value;
+
+                    setTimeout(() => {
+                        elem.target.innerHTML = text;
+                    }, 2000);
+                });
         }
     }
 
     latestVersionDownload = document.querySelector("button#latest-version-download");
-    latestVersionDownload.addEventListener("click", () => {
+    latestVersionDownload.addEventListener("click", (elem) => {
+        var text = elem.target.innerHTML;
+        elem.target.innerHTML = `<img src="media/loading.gif" class="i me-2" />Preparing...`;
         document.querySelector("iframe#file_download_wrapper").src = latestFile;
+        setTimeout(() => {
+            elem.target.innerHTML = text;
+        }, 2000);
     });
 }
 
