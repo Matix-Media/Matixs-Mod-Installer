@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Reflection;
 using Microsoft.Win32;
+using System.Dynamic;
 
 namespace Matixs_Mod_Installer
 {
@@ -328,6 +329,14 @@ namespace Matixs_Mod_Installer
                     commandKey.SetValue("", "\"" + applicationLocation + "\" \"%1\"");
                 }
             }
+        }
+
+        public static bool DynamicPropertyExist(dynamic settings, string name)
+        {
+            if (settings is ExpandoObject)
+                return ((IDictionary<string, object>)settings).ContainsKey(name);
+
+            return settings.GetType().GetProperty(name) != null;
         }
     }
 }

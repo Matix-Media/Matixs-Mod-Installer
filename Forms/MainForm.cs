@@ -20,6 +20,7 @@ using Newtonsoft.Json.Schema;
 using CefSharp.WinForms;
 using CefSharp;
 using CommonMark;
+using Matix.PrettyTime;
 
 namespace Matixs_Mod_Installer
 {
@@ -615,6 +616,7 @@ namespace Matixs_Mod_Installer
             lblName.Text = modpack.Name;
             lblCreator.Text = modpack.Creator;
             lblLastChanged.Text = DateTime.Parse(modpack.LastChanged).ToString("MM'/'dd'/'yyyy");
+            lblLastPlayed.Text = "Never";
             lblMinecraftVersion.Text = modpack.McVersion;
             //rtbDescription.Text = modpack.Description;
             
@@ -643,6 +645,14 @@ namespace Matixs_Mod_Installer
 
 
             this.Text = "Matix's Mod Installer - " + modpack.Name + " (" + modpack.McVersion + ") by " + modpack.Creator;
+
+            string profileLocation = Path.Combine(Memory.minecraftLocation, "launcher_profiles.json");
+            string profileString = "";
+            using (StreamReader r = new StreamReader(profileLocation))
+            {
+                profileString = await r.ReadToEndAsync();
+            }
+
 
             try
             {
@@ -704,8 +714,18 @@ namespace Matixs_Mod_Installer
                             await installModpack(modpack);
                             return;
                         }
-                        
 
+
+                        try
+                        {
+                            dynamic profiles = JsonConvert.DeserializeObject(profileString);
+                            DateTime lastPlayed = profiles.profiles[modpack.UID].lastUsed;
+                            lblLastPlayed.Text = PrettyTime.GetPrettyElapsedTime(lastPlayed);
+                        } catch (Exception e)
+                        {
+                            _log.Info("Launcher profiles not containing selected modpack (\"" + modpack.UID + "\")");
+                            _log.Debug(e);
+                        }
 
 
                     }

@@ -30,6 +30,9 @@ You can simply add more Modpack sources by going to the options menu and clickin
 #### v0.5.18.20346
 - [x] Fixed and improved auto updater
 
+#### v0.5.41.20354
+- [x] Fixed last played info
+
 
 Looking for the change log of older version? [Click here!](changelog.md)
 

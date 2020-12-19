@@ -102,6 +102,9 @@
     <Reference Include="CommonMark, Version=0.1.0.0, Culture=neutral, PublicKeyToken=001ef8810438905d, processorArchitecture=MSIL">
       <HintPath>packages\CommonMark.NET.0.15.1\lib\net45\CommonMark.dll</HintPath>
     </Reference>
+    <Reference Include="Matix.PrettyTime, Version=1.0.6.20354, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\Matix.PrettyTime.1.0.5.20354\lib\netstandard2.0\Matix.PrettyTime.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="Microsoft.VisualBasic.PowerPacks, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
