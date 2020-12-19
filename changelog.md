@@ -32,3 +32,4 @@
 
 # v0.5.18.20346
 - [x] Fixed and improved auto updater
+
